@@ -1,0 +1,459 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    /* Sandalwood / Sandal Cream Light Theme */
+    --bg-main: #F5EFE6;
+    --bg-secondary: #EBE1D1;
+    --bg-surface: #FCFAF6;
+    --border-color: #DBCBB4;
+    --text-primary: #1C1814;
+    --text-secondary: #5C5349;
+
+    /* Goldenrod Accent (#DAA520) */
+    --accent: #DAA520;
+    --accent-hover: #B8860B;
+    --accent-text: #18181B;
+    --accent-muted: rgba(218, 165, 32, 0.15);
+    --accent-rgb: 218, 165, 32;
+
+    --bg-noise-opacity: 0.03;
+    --bg-grid-opacity: 0.035;
+    --bg-glow-opacity: 0.03;
+  }
+
+  .dark {
+    /* Obsidian Dark Theme */
+    --bg-main: #0A0A0A;
+    --bg-secondary: #171717;
+    --bg-surface: #262626;
+    --border-color: #404040;
+    --text-primary: #FAFAFA;
+    --text-secondary: #A3A3A3;
+
+    /* Luminous 50th Anniversary Gold Accent */
+    --accent: #FBBF24;
+    --accent-hover: #F59E0B;
+    --accent-text: #0A0A0A;
+    --accent-muted: rgba(251, 191, 36, 0.12);
+    --accent-rgb: 251, 191, 36;
+
+    --bg-noise-opacity: 0.04;
+    --bg-grid-opacity: 0.04;
+    --bg-glow-opacity: 0.05;
+  }
+
+  /* Branded Custom Selection matching Theme Accent */
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-text);
+  }
+
+  ::-moz-selection {
+    background-color: var(--accent);
+    color: var(--accent-text);
+  }
+
+  /* Standard Scrollbar styling (Firefox & modern browsers) */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--bg-main);
+  }
+
+  /* WebKit / Chromium custom scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--bg-main);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border: 2px solid var(--bg-main);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent);
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+    line-height: 1.7;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Global Focus-Visible Accessibility Ring */
+  *:focus-visible {
+    outline: 2px solid var(--accent) !important;
+    outline-offset: 3px !important;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+}
+
+/* Skip to main content link */
+.skip-to-content {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 9999;
+  padding: 10px 18px;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skip-to-content:focus {
+  top: 16px;
+}
+
+/* Subtle SVG Noise / Grain Overlay (3% opacity) */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* GPU-Accelerated Floating Accent Orbs */
+@keyframes orbFloat1 {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(40px, 60px, 0);
+  }
+}
+
+@keyframes orbFloat2 {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-50px, -40px, 0);
+  }
+}
+
+.animate-orb-1 {
+  animation: orbFloat1 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-orb-2 {
+  animation: orbFloat2 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-orb-1,
+  .animate-orb-2,
+  .animate-shimmer {
+    animation: none !important;
+  }
+}
+
+/* Shimmer Animation for Empty States */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      var(--accent-muted) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Continuous Marquee Ticker for Single-Line Announcements */
+@keyframes marqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-ticker {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 22s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-ticker:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-ticker {
+    animation: none !important;
+  }
+}
+
+/* Typography Utility Helper Classes */
+.text-heading-h1 {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-heading-h2 {
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.text-heading-h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+  line-height: 1.25;
+}
+
+/* Consistent Section Padding Helper */
+.section-padding {
+  padding-top: 5rem;
+  /* 80px / py-20 */
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 7rem;
+    /* 112px / py-28 */
+    padding-bottom: 7rem;
+  }
+}
+
+/* Design Tokens Helper Classes */
+.bg-theme-main {
+  background-color: var(--bg-main);
+}
+
+.bg-theme-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-theme-surface {
+  background-color: var(--bg-surface);
+}
+
+.border-theme {
+  border-color: var(--border-color);
+}
+
+.text-theme-primary {
+  color: var(--text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary);
+}
+
+.bg-accent-lime {
+  background-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.bg-accent-lime:hover {
+  background-color: var(--accent-hover);
+}
+
+.text-accent-lime {
+  color: var(--accent);
+}
+
+.border-accent-lime {
+  border-color: var(--accent);
+}
+
+/* Border beam rotation & tech grid utilities */
+@keyframes border-beam-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-border-beam {
+  animation: border-beam-rotate 10s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-border-beam {
+    animation: none !important;
+  }
+}
+
+/* Continuous Marquee Animation for Sponsors & Partners */
+@keyframes sponsor-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-sponsor-marquee {
+  animation: sponsor-marquee 32s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sponsor-marquee {
+    animation: none !important;
+  }
+}
+
+.bg-tech-grid {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Animated Notification Bell Ring */
+@keyframes bell-ring {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30% {
+    transform: rotate(-14deg);
+  }
+  20%, 40% {
+    transform: rotate(14deg);
+  }
+  50% {
+    transform: rotate(-6deg);
+  }
+  60% {
+    transform: rotate(6deg);
+  }
+  70% {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-bell-ring {
+  transform-origin: top center;
+  animation: bell-ring 2.5s ease-in-out infinite;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-bell-ring {
+    animation: none !important;
+  }
+}
+
+/* Compute 50 Hero Emblem Subtle Floating Animation */
+@keyframes hero-emblem-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-hero-emblem {
+  animation: hero-emblem-float 4s ease-in-out infinite;
+}
+
+/* Event Date Glowing Pulse */
+@keyframes hero-date-glow {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.15);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.35);
+  }
+}
+
+.animate-hero-date-glow {
+  animation: hero-date-glow 3s ease-in-out infinite;
+}
+
+/* Countdown Seconds Tick */
+@keyframes countdown-tick {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-countdown-tick {
+  animation: countdown-tick 1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-emblem,
+  .animate-hero-date-glow,
+  .animate-countdown-tick {
+    animation: none !important;
+  }
+}
+
+/* Circuit nav: ring that pulses out of a node when the trace arrives. */
+@keyframes circuit-ping {
+  from { transform: scale(1); opacity: 0.6; }
+  to { transform: scale(3); opacity: 0; }
+}
+.circuit-ping {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5px;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: circuit-ping 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .circuit-ping { animation: none; opacity: 0; }
+}
+
+/* Countdown: colons breathe once a second. */
+@keyframes countdown-colon {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 0.25; }
+}
+.animate-countdown-colon {
+  animation: countdown-colon 1s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-countdown-colon { animation: none; }
+}
